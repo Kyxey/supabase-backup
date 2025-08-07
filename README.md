@@ -43,4 +43,10 @@ After setting up the project properly, you're ready to run the app and take a fu
 pnpm run start
 ```
 
+This will compile the TypeScript code and run the application. You can also use:
+
+- `pnpm run build` - Compile TypeScript to JavaScript
+- `pnpm run dev` - Build and run in one command
+- `pnpm run clean` - Remove compiled files
+
 During the execution, you'll get proper log messages and progress reports. If there were no errors during the download process, all of your files must be saved in the directory that you specified yourself in the `.env` file (default is `backups`) after the execution is done.

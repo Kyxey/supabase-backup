@@ -2,11 +2,23 @@ import ENV from "./configs/env.js";
 import BucketConfig from "./configs/bucket.js";
 import fs from "fs";
 import path from "path";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
-const supabase = createClient(ENV.SUPABASE_URL, ENV.SERVICE_KEY);
+const supabase: SupabaseClient = createClient(
+  ENV.SUPABASE_URL,
+  ENV.SERVICE_KEY
+);
 
-async function downloadBucket(bucketId) {
+interface FileObject {
+  name: string;
+  id?: string;
+  updated_at?: string;
+  created_at?: string;
+  last_accessed_at?: string;
+  metadata?: Record<string, unknown>;
+}
+
+async function downloadBucket(bucketId: string): Promise<void> {
   console.log(`📦 Connecting to bucket: ${bucketId}`);
 
   const { data: list, error } = await supabase.storage
@@ -31,7 +43,7 @@ async function downloadBucket(bucketId) {
   let completed = 0;
 
   await Promise.all(
-    list.map(async (obj) => {
+    list.map(async (obj: FileObject): Promise<void> => {
       try {
         const { data, error: dlErr } = await supabase.storage
           .from(bucketId)
@@ -44,15 +56,24 @@ async function downloadBucket(bucketId) {
           return;
         }
 
-        const localPath = path.join(ENV.BACKUP_DIR, bucketId, obj.name);
+        if (!data) {
+          console.error(`⚠️ No data received for '${obj.name}'`);
+          return;
+        }
+
+        const localPath: string = path.join(ENV.BACKUP_DIR, bucketId, obj.name);
         fs.mkdirSync(path.dirname(localPath), { recursive: true });
-        const buffer = await data.arrayBuffer();
+        const buffer: ArrayBuffer = await data.arrayBuffer();
         fs.writeFileSync(localPath, Buffer.from(buffer));
 
         completed++;
         console.log(`✅ [${completed}/${list.length}] Saved: ${obj.name}`);
-      } catch (err) {
-        console.error(`❌ Unexpected error downloading '${obj.name}':`, err);
+      } catch (err: unknown) {
+        const errorMessage = err instanceof Error ? err.message : String(err);
+        console.error(
+          `❌ Unexpected error downloading '${obj.name}':`,
+          errorMessage
+        );
       }
     })
   );
@@ -60,13 +81,20 @@ async function downloadBucket(bucketId) {
   console.log(`🎉 Completed download for bucket '${bucketId}'`);
 }
 
-(async () => {
+async function main(): Promise<void> {
   for (const id of BucketConfig.bucketIDs) {
     console.log(`🚀 Starting download for bucket: ${id}`);
     try {
       await downloadBucket(id);
-    } catch (err) {
-      console.error(`❌ Error processing bucket '${id}':`, err.message || err);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.error(`❌ Error processing bucket '${id}':`, errorMessage);
     }
   }
-})();
+}
+
+main().catch((err: unknown) => {
+  const errorMessage = err instanceof Error ? err.message : String(err);
+  console.error("❌ Fatal error:", errorMessage);
+  process.exit(1);
+});
