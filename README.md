@@ -10,6 +10,9 @@ Supabase DB full bucket backup system.
     - [1️⃣ Prerequisite](#1️⃣-prerequisite)
     - [2️⃣ Setup](#2️⃣-setup)
     - [3️⃣ Execute](#3️⃣-execute)
+  - [📜 Available Scripts](#-available-scripts)
+    - [Build \& Run Commands](#build--run-commands)
+    - [Code Quality Commands](#code-quality-commands)
 
 ## 🏁 Getting Started
 
@@ -43,10 +46,22 @@ After setting up the project properly, you're ready to run the app and take a fu
 pnpm run start
 ```
 
-This will compile the TypeScript code and run the application. You can also use:
+This will compile the TypeScript code and run the application. During the execution, you'll get proper log messages and progress reports. If there were no errors during the download process, all of your files must be saved in the directory that you specified yourself in the `.env` file (default is `backups`) after the execution is done.
+
+## 📜 Available Scripts
+
+### Build & Run Commands
 
 - `pnpm run build` - Compile TypeScript to JavaScript
+- `pnpm run start` - Build and run the application
 - `pnpm run dev` - Build and run in one command
 - `pnpm run clean` - Remove compiled files
 
-During the execution, you'll get proper log messages and progress reports. If there were no errors during the download process, all of your files must be saved in the directory that you specified yourself in the `.env` file (default is `backups`) after the execution is done.
+### Code Quality Commands
+
+- `pnpm run lint` - Check for linting errors
+- `pnpm run lint:fix` - Auto-fix linting errors
+- `pnpm run format` - Format code with Prettier
+- `pnpm run format:check` - Check if code is properly formatted
+- `pnpm run check` - Run both lint and format checks
+- `pnpm run fix` - Auto-fix both linting and formatting issues

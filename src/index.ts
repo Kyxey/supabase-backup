@@ -2,11 +2,12 @@ import ENV from "./configs/env.js";
 import BucketConfig from "./configs/bucket.js";
 import fs from "fs";
 import path from "path";
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import { createClient } from "@supabase/supabase-js";
 
 const supabase: SupabaseClient = createClient(
   ENV.SUPABASE_URL,
-  ENV.SERVICE_KEY
+  ENV.SERVICE_KEY,
 );
 
 interface FileObject {
@@ -28,7 +29,7 @@ async function downloadBucket(bucketId: string): Promise<void> {
   if (error) {
     console.error(
       `❌ Failed to list files in bucket '${bucketId}':`,
-      error.message
+      error.message,
     );
     return;
   }
@@ -49,14 +50,14 @@ async function downloadBucket(bucketId: string): Promise<void> {
           .from(bucketId)
           .download(obj.name);
 
-        if (dlErr) {
+        if (dlErr !== null) {
           console.error(
-            `⚠️ Failed to download '${obj.name}': ${dlErr.message}`
+            `⚠️ Failed to download '${obj.name}': ${dlErr.message}`,
           );
           return;
         }
 
-        if (!data) {
+        if (data === null) {
           console.error(`⚠️ No data received for '${obj.name}'`);
           return;
         }
@@ -72,10 +73,10 @@ async function downloadBucket(bucketId: string): Promise<void> {
         const errorMessage = err instanceof Error ? err.message : String(err);
         console.error(
           `❌ Unexpected error downloading '${obj.name}':`,
-          errorMessage
+          errorMessage,
         );
       }
-    })
+    }),
   );
 
   console.log(`🎉 Completed download for bucket '${bucketId}'`);

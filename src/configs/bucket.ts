@@ -1,4 +1,4 @@
-import ENV from "./env.js";
+import ENV from './env.js';
 
 interface BucketConfig {
   readonly bucketIDs: readonly string[];
@@ -6,7 +6,7 @@ interface BucketConfig {
 
 const bucketConfig: BucketConfig = {
   bucketIDs: ENV.BUCKET_IDS
-    ? ENV.BUCKET_IDS.split(",").map((id: string) => id.trim())
+    ? ENV.BUCKET_IDS.split(',').map((id: string) => id.trim())
     : [],
 };
 
