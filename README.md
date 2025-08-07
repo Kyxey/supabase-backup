@@ -11,8 +11,8 @@ Supabase DB full bucket backup system.
     - [2️⃣ Setup](#2️⃣-setup)
     - [3️⃣ Execute](#3️⃣-execute)
   - [📜 Available Scripts](#-available-scripts)
-    - [Build \& Run Commands](#build--run-commands)
-    - [Code Quality Commands](#code-quality-commands)
+    - [🏗️ Build \& Run Commands](#️-build--run-commands)
+    - [✨ Code Quality Commands](#-code-quality-commands)
 
 ## 🏁 Getting Started
 
@@ -50,14 +50,14 @@ This will compile the TypeScript code and run the application. During the execut
 
 ## 📜 Available Scripts
 
-### Build & Run Commands
+### 🏗️ Build & Run Commands
 
 - `pnpm run build` - Compile TypeScript to JavaScript
 - `pnpm run start` - Build and run the application
 - `pnpm run dev` - Build and run in one command
 - `pnpm run clean` - Remove compiled files
 
-### Code Quality Commands
+### ✨ Code Quality Commands
 
 - `pnpm run lint` - Check for linting errors
 - `pnpm run lint:fix` - Auto-fix linting errors
