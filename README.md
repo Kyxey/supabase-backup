@@ -1,6 +1,6 @@
 # Supabase Backup
 
-Supabase DB full bucket backup system.
+Supabase DB bucket backup system. It can backup all of the buckets at once, or partially backup any of them that are specified.
 
 ## ℹ️ Table of Contents
 
@@ -18,11 +18,11 @@ Supabase DB full bucket backup system.
 
 ### 1️⃣ Prerequisite
 
-You will need the following tools in order to be able to run the projet:
+You will need the following tools in order to be able to run the project:
 
 1. **Node** and **NPM** (latest stable version)
 2. **PNPM** (Install globally with NPM)
-3. **Supabase CLI** installed and configured properly
+3. **Supabase CLI** installed and configured properly (Must login with your account in CLI and connect to your project)
 
 ### 2️⃣ Setup
 
@@ -35,8 +35,8 @@ pnpm install
 2. Create a _`.env`_ file in the root directory, and fill it with the keys of the _`.env.example`_ file and your own values accordingly. The ENV variables are explained below:
    - **`SUPABASE_URL`**: The URL to your Supabase project. If hosted on [supabase.com](www.supabase.com), it must look like this: `https://yourproject.supabase.co`
    - **`SERVICE_KEY`**: The secret key of your Supabase project. It usually looks like a JWT token.
-   - **`BACKUP_DIR`**: The directory in which you wish to store the backups in. Defaults to _`backups`_ if not specified.
-   - **`BUCKET_IDS`**: The IDs of the buckets you wish to backup. Must be comma-separated. Example: `your-bucket-id-1,your-bucket-id-2,your-bucket-id-3`. These usually are the name of the buckets. If generated automatically by Supabase, they usually look like an UUID.
+   - **`BACKUP_DIR` - [Optional]**: The directory in which you wish to store the backups in. Defaults to _`backups`_ if not specified.
+   - **`BUCKET_IDS` - [Optional]**: The IDs of the buckets you wish to backup. Must be comma-separated. Example: `your-bucket-id-1,your-bucket-id-2,your-bucket-id-3`. These usually are the name of the buckets. If generated automatically by Supabase, they usually look like an UUID. If not specified, the app will download all of the buckets that are connected to your project,
 
 ### 3️⃣ Execute
 
